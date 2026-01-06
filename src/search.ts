@@ -4,6 +4,13 @@ import { Decoration, DecorationSet, EditorView, ViewPlugin, ViewUpdate } from '@
 import { RangeSetBuilder, StateEffect, StateField } from '@codemirror/state';
 
 /**
+ * Extended Editor interface with CodeMirror instance.
+ */
+interface EditorWithCM extends Editor {
+  cm: EditorView;
+}
+
+/**
  * Interface for managing search state.
  */
 interface SearchState {
@@ -127,7 +134,7 @@ export class SearchManager {
    * Update the editor search state.
    */
   private updateEditorState(editor: Editor) {
-    const view = (editor as any).cm as EditorView;
+    const view = (editor as EditorWithCM).cm;
     view.dispatch({
       effects: updateSearchState.of(this.searchState)
     });
@@ -137,8 +144,8 @@ export class SearchManager {
    * Create the minibuffer.
    */
   private createMinibuffer(editor: Editor) {
-    const editorEl = (editor as any).cm.dom as HTMLElement;
-    const container = editorEl.closest('.workspace-leaf-content') as HTMLElement;
+    const editorEl = (editor as EditorWithCM).cm.dom;
+    const container = editorEl.closest('.workspace-leaf-content');
 
     if (!container) return;
 
@@ -334,7 +341,7 @@ export class SearchManager {
     this.currentEditor = null;
 
     // Return focus to the editor.
-    const view = (editor as any).cm as EditorView;
+    const view = (editor as EditorWithCM).cm;
     view.focus();
   }
   /**
