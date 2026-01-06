@@ -4,8 +4,9 @@
   "description": "Emacs keybindings with Isearch and mark set.",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild src/main.ts --bundle --platform=node --external:obsidian --external:@codemirror/* --external:@lezer/* --outfile=main.js --format=cjs",
+    "build": "tsc --noEmit && esbuild src/main.ts --bundle --platform=node --external:obsidian --external:@codemirror/* --external:@lezer/* --outfile=main.js --format=cjs",
     "dev": "esbuild src/main.ts --bundle --platform=node --external:obsidian --external:@codemirror/* --external:@lezer/* --outfile=main.js --format=cjs --watch",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix"
   },
