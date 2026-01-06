@@ -207,14 +207,14 @@ export class MarkManager {
       const lastWordEnd = lastWord.index + lastWord.length;
 
       if (cursor.ch > lastWordEnd) {
-        // Cursor is after the last word, move to its beginning
+        // Cursor is after the last word (in whitespace), move to its beginning
         this.moveCursor(editor, { line: cursor.line, ch: lastWord.index });
-      } else if (cursor.ch === lastWordEnd && words.length > 1) {
-        // Cursor is at the end of a word, move to the previous word's beginning
+      } else if (cursor.ch === lastWord.index && words.length > 1) {
+        // Cursor is at the beginning of a word, move to the previous word's beginning
         const prevWord = words[words.length - 2];
         this.moveCursor(editor, { line: cursor.line, ch: prevWord.index });
       } else {
-        // Cursor is inside a word, move to its beginning
+        // Cursor is inside or at the end of a word, move to its beginning
         this.moveCursor(editor, { line: cursor.line, ch: lastWord.index });
       }
     } else {
