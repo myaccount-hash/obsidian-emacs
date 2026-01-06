@@ -104,7 +104,6 @@ export class SearchManager {
   };
   private minibufferEl: HTMLElement | null = null;
   private inputEl: HTMLInputElement | null = null;
-  private currentEditor: Editor | null = null;
 
   constructor(private plugin: Plugin) { }
 
@@ -119,7 +118,6 @@ export class SearchManager {
    * Start incremental search.
    */
   startSearch(editor: Editor, direction: 'forward' | 'backward') {
-    this.currentEditor = editor;
     this.searchState.active = true;
     this.searchState.direction = direction;
     this.searchState.startPos = editor.getCursor();
@@ -310,7 +308,6 @@ export class SearchManager {
     }
 
     this.inputEl = null;
-    this.currentEditor = null;
 
     // Return focus to the editor.
     const view = (editor as EditorWithCM).cm;
