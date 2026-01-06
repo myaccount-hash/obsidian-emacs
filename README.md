@@ -2,12 +2,53 @@
 
 ![I-search](assets/isearch.png)
 
+This plugin brings Emacs-style keybindings to Obsidian, focusing on incremental search (Isearch) and mark/region operations.
+
 EmacsスタイルのキーバインドをObsidianに追加するプラグインです。
-Isearchとマークセット操作に対応しています。
-This plugin brings Emacs-style keybindings to Obsidian, including Isearch and mark functionality.
+インクリメンタル検索とマーク・リージョン操作を提供します。
+yankやkillはOSのクリップボードを使用します。
 
-## Features
+## Commands and Emacs keybindings
 
-- Incremental search (I-search)
-- Mark set / region selection
-- Emacs-like navigation keys
+Emacs default keybindings and their corresponding commands.
+Key assignments must be configured manually in Obsidian.
+To use mark and region functionality, assign movement commands (e.g. Backward char, Forward char) to keys such as `C-f`, `C-b`, etc.
+
+Emacsのデフォルトキーバインドと，対応するコマンド一覧です。
+キー割り当てはObsidian側で手動設定してください。
+マーク・リージョン機能を使うには，移動コマンド（Backward char，Forward charなど）を `C-f`，`C-b` などに割り当ててください。
+
+### Cursor movement
+
+| Command | Emacs key |
+| --- | --- |
+| Forward char | `C-f` |
+| Backward char | `C-b` |
+| Next line | `C-n` |
+| Previous line | `C-p` |
+| Beginning of line | `C-a` |
+| End of line | `C-e` |
+| Beginning of buffer | `M-<` |
+| End of buffer | `M->` |
+
+### Mark / region
+
+| Command | Emacs key |
+| --- | --- |
+| Set mark | `C-SPC` |
+| Keyboard quit (clear mark) | `C-g` |
+
+### Kill / yank
+
+| Command | Emacs key |
+| --- | --- |
+| Kill region | `C-w` |
+| Kill line | `C-k` |
+| Yank | `C-y` |
+
+### Incremental search
+
+| Command | Emacs key |
+| --- | --- |
+| Isearch forward | `C-s` |
+| Isearch backward | `C-r` |
