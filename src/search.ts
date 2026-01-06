@@ -203,11 +203,12 @@ export class SearchManager {
   private attachInputHandlers(editor: Editor) {
     if (!this.inputEl) return;
 
-    this.plugin.registerDomEvent(this.inputEl, 'input', () => {
-      this.performSearch(editor, this.inputEl!.value);
+    const inputEl = this.inputEl;
+    this.plugin.registerDomEvent(inputEl, 'input', () => {
+      this.performSearch(editor, inputEl.value);
     });
 
-    this.plugin.registerDomEvent(this.inputEl, 'keydown', (e: KeyboardEvent) => {
+    this.plugin.registerDomEvent(inputEl, 'keydown', (e: KeyboardEvent) => {
       if (e.isComposing) return;
 
       if (e.key === 'Escape') {
