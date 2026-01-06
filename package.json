@@ -8,7 +8,7 @@
     "dev": "esbuild main.ts --bundle --platform=node --external:obsidian --external:@codemirror/* --external:@lezer/* --outfile=main.js --format=cjs --watch"
   },
   "keywords": ["obsidian", "obsidian-plugin", "emacs", "keybindings"],
-  "author": "shotawake",
+  "author": "myaccount-hash",
   "license": "MIT",
   "repository": {
     "type": "git",

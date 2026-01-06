@@ -3,7 +3,7 @@
   "name": "Emacs Keybinding",
   "version": "1.0.0",
   "minAppVersion": "0.15.0",
-  "description": "Emacs Keybind",
-  "author": "Author",
+  "description": "Emacs keybindings for Obsidian with incremental search and mark set",
+  "author": "myaccount-hash",
   "isDesktopOnly": false
 }

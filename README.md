@@ -1,5 +1,12 @@
 # Emacs Keybinding
 
-Emacsスタイルのキーバインドを提供するプラグインです。特にインクリメンタルサーチとマークセットに対応しています。
+![I-search](assets/isearch.png)
 
-Brings Emacs-style keybindings to Obsidian, featuring incremental search and mark set functionality.
+EmacsスタイルのキーバインドをObsidianに追加するプラグインです。
+インクリメンタルサーチとマークセット操作に対応しています。
+This plugin brings Emacs-style keybindings to Obsidian, including incremental search and mark functionality.
+
+## Features
+- Incremental search (I-search)
+- Mark set / region selection
+- Emacs-like navigation keys
