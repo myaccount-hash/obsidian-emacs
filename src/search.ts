@@ -150,44 +150,15 @@ export class SearchManager {
     if (!container) return;
 
     this.minibufferEl = document.createElement('div');
-    this.minibufferEl.style.cssText = `
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 24px;
-      background: var(--background-primary);
-      border-top: 1px solid var(--background-modifier-border);
-      padding: 2px 8px;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    `;
+    this.minibufferEl.className = 'emacs-minibuffer';
 
     const label = document.createElement('span');
     label.textContent = this.searchState.direction === 'forward' ? 'I-search:' : 'I-search backward:';
-    label.style.cssText = `
-      font-family: var(--font-monospace);
-      font-size: 12px;
-      white-space: nowrap;
-    `;
+    label.className = 'emacs-minibuffer-label';
 
     this.inputEl = document.createElement('input');
     this.inputEl.type = 'text';
-    this.inputEl.style.cssText = `
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      box-shadow: none;
-      font-family: var(--font-monospace);
-      font-size: 12px;
-      color: var(--text-normal);
-      padding: 0;
-      margin: 0;
-      height: 20px;
-    `;
+    this.inputEl.className = 'emacs-minibuffer-input';
 
     this.minibufferEl.appendChild(label);
     this.minibufferEl.appendChild(this.inputEl);
