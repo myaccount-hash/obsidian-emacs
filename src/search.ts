@@ -293,7 +293,7 @@ export class SearchManager {
       editor.setCursor(this.searchState.startPos);
     } else if (!restore && this.searchState.currentIndex !== -1) {
       const match = this.searchState.matches[this.searchState.currentIndex];
-      const pos = editor.offsetToPos(match.from);
+      const pos = editor.offsetToPos(match.to);
       editor.setCursor(pos);
     }
 
