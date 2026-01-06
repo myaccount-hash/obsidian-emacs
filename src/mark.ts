@@ -17,9 +17,7 @@ export class MarkManager {
    * Supports escaped "\t" and "\n" sequences.
    */
   private getBoundarySet(): Set<string> {
-    const s = this.getWordBoundaryChars()
-      .replace(/\\t/g, '\t')
-      .replace(/\\n/g, '\n');
+    const s = this.getWordBoundaryChars().replace(/\\t/g, '\t').replace(/\\n/g, '\n');
     return new Set([...s]);
   }
 
