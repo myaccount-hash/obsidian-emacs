@@ -1,17 +1,27 @@
 // main.ts
-import { Plugin, Editor } from 'obsidian';
+import { App, Plugin, PluginSettingTab, Setting, Editor } from 'obsidian';
 import { SearchManager, searchPlugin } from './search';
 import { MarkManager } from './mark';
 
+interface EmacsKeybindingsSettings {
+  wordBoundaryChars: string;
+}
+
+const DEFAULT_SETTINGS: EmacsKeybindingsSettings = {
+  wordBoundaryChars: ' \t_',
+};
+
 export default class EmacsKeybindingsPlugin extends Plugin {
+  settings!: EmacsKeybindingsSettings;
   private searchManager!: SearchManager;
   private markManager!: MarkManager;
 
-  onload() {
+  async onload() {
+    await this.loadSettings();
     this.registerEditorExtension(searchPlugin);
 
     this.searchManager = new SearchManager(this);
-    this.markManager = new MarkManager();
+    this.markManager = new MarkManager(() => this.settings.wordBoundaryChars);
 
     // Added in main.ts.
     this.addCommand({
@@ -170,5 +180,45 @@ export default class EmacsKeybindingsPlugin extends Plugin {
         }
       },
     });
+
+    this.addSettingTab(new EmacsKeybindingsSettingTab(this.app, this));
+  }
+
+  async loadSettings() {
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+  }
+
+  async saveSettings() {
+    await this.saveData(this.settings);
+  }
+}
+
+class EmacsKeybindingsSettingTab extends PluginSettingTab {
+  plugin: EmacsKeybindingsPlugin;
+
+  constructor(app: App, plugin: EmacsKeybindingsPlugin) {
+    super(app, plugin);
+    this.plugin = plugin;
+  }
+
+  display(): void {
+    const { containerEl } = this;
+
+    containerEl.empty();
+
+    new Setting(containerEl)
+      .setName('Word boundary characters')
+      .setDesc(
+        'Characters that separate words (e.g., space, tab, underscore). Default: space, tab, underscore'
+      )
+      .addText(text =>
+        text
+          .setPlaceholder(' \\t_')
+          .setValue(this.plugin.settings.wordBoundaryChars)
+          .onChange(async value => {
+            this.plugin.settings.wordBoundaryChars = value;
+            await this.plugin.saveSettings();
+          })
+      );
   }
 }

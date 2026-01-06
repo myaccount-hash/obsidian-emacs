@@ -6,6 +6,25 @@ import { Editor, EditorPosition } from 'obsidian';
  */
 export class MarkManager {
   private markPos: EditorPosition | null = null;
+  private getWordBoundaryChars: () => string;
+
+  constructor(getWordBoundaryChars: () => string) {
+    this.getWordBoundaryChars = getWordBoundaryChars;
+  }
+
+  /**
+   * Get the word pattern regex based on boundary characters.
+   * Word pattern matches characters that are NOT boundary characters.
+   */
+  private getWordPattern(): RegExp {
+    // Dynamically get current boundary characters
+    const boundaryChars = this.getWordBoundaryChars();
+    // Replace \t and \n with actual tab and newline first
+    const processed = boundaryChars.replace(/\\t/g, '\t').replace(/\\n/g, '\n');
+    // Escape special regex characters (- at start to avoid range interpretation, ] near start)
+    const escaped = processed.replace(/[-[\]\\{}()*+?.,^$|#]/g, '\\$&');
+    return new RegExp(`[^${escaped}]+`, 'g');
+  }
 
   /**
    * Set the mark to the current position.
@@ -147,17 +166,7 @@ export class MarkManager {
     const line = editor.getLine(from.line);
     const restOfLine = line.substring(from.ch);
 
-    const wordPattern = /[^\s_]+/g;
-
-    const skipPattern = /[\s_]+/g;
-    skipPattern.lastIndex = 0;
-    const skipMatch = skipPattern.exec(restOfLine);
-    let searchStart = 0;
-    if (skipMatch && skipMatch.index === 0) {
-      searchStart = skipMatch[0].length;
-    }
-
-    wordPattern.lastIndex = searchStart;
+    const wordPattern = this.getWordPattern();
     const match = wordPattern.exec(restOfLine);
 
     if (match) {
@@ -185,7 +194,7 @@ export class MarkManager {
     const line = editor.getLine(from.line);
     const beforeCursor = line.substring(0, from.ch);
 
-    const wordPattern = /[^\s_]+/g;
+    const wordPattern = this.getWordPattern();
 
     const words: Array<{ index: number; length: number }> = [];
     let match;
