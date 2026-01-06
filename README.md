@@ -14,9 +14,9 @@ Emacs default keybindings and their corresponding commands.
 Key assignments must be configured manually in Obsidian.
 To use mark and region functionality, assign movement commands (e.g. Backward char, Forward char) to keys such as `C-f`, `C-b`, etc.
 
-Emacsのデフォルトキーバインドと，対応するコマンド一覧です。
-キー割り当てはObsidian側で手動設定してください。
-マーク・リージョン機能を使うには，移動コマンド（Backward char，Forward charなど）を `C-f`，`C-b` などに割り当ててください。
+以下はEmacsのデフォルトキーバインドと，対応するコマンド一覧です。
+ホットキーは手動で設定してください．
+マーク・リージョン機能を使うには，移動コマンド（Backward char，Forward charなど）を `C-f`，`C-b` 等に割り当てる必要があります．
 
 ### Cursor movement
 
