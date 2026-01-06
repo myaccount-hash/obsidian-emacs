@@ -254,7 +254,7 @@ export class SearchManager {
       this.moveToCurrentMatch(editor);
     } else {
       this.searchState.currentIndex = -1;
-      this.updateLabel('(failed) I-search:');
+      this.updateLabel('I-search:');
     }
 
     this.updateEditorState(editor);
