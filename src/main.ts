@@ -7,7 +7,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
   private searchManager!: SearchManager;
   private markManager!: MarkManager;
 
-  async onload() {
+  onload() {
     this.registerEditorExtension(searchPlugin);
 
     this.searchManager = new SearchManager(this);
