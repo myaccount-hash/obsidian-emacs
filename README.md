@@ -58,7 +58,7 @@ To use mark and region functionality, assign movement commands (e.g. Backward ch
 | Isearch forward  | `C-s`     |
 | Isearch backward | `C-r`     |
 
-### Keybinding JSON
+### Keybind Settings Example
 Here is a sample configuration for `.obsidian/hotkeys.json`.
 
 以下は`.obsidian/hotkeys.json`のサンプル設定です.
