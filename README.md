@@ -30,7 +30,6 @@ To use mark and region functionality, assign movement commands (e.g. Backward ch
 | End of line         | `C-e`     |
 | Beginning of buffer | `M-<`     |
 | End of buffer       | `M->`     |
-| -------------       | --------- |
 | Forward word        | `M-f`     |
 | Backward word       | `M-b`     |
 
