@@ -84,6 +84,22 @@ export default class EmacsKeybindingsPlugin extends Plugin {
     });
 
     this.addCommand({
+      id: 'forward-word',
+      name: 'Forward word',
+      editorCallback: (editor: Editor) => {
+        this.markManager.forwardWord(editor);
+      },
+    });
+
+    this.addCommand({
+      id: 'backward-word',
+      name: 'Backward word',
+      editorCallback: (editor: Editor) => {
+        this.markManager.backwardWord(editor);
+      },
+    });
+
+    this.addCommand({
       id: 'copy-region',
       name: 'Copy region',
       editorCallback: async (editor: Editor) => {
