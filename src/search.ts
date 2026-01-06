@@ -198,6 +198,13 @@ export class SearchManager {
   }
 
   /**
+   * Check if the query contains uppercase letters.
+   */
+  private hasUpperCase(str: string): boolean {
+    return str !== str.toLowerCase();
+  }
+
+  /**
    * Perform a search.
    */
   private performSearch(editor: Editor, query: string) {
@@ -213,11 +220,26 @@ export class SearchManager {
 
     const content = editor.getValue();
     const matches: { from: number; to: number }[] = [];
-    let index = 0;
 
-    while ((index = content.indexOf(query, index)) !== -1) {
-      matches.push({ from: index, to: index + query.length });
-      index++;
+    // Emacs-style smart case: case-insensitive if query is all lowercase
+    const caseSensitive = this.hasUpperCase(query);
+
+    if (caseSensitive) {
+      // Case-sensitive search
+      let index = 0;
+      while ((index = content.indexOf(query, index)) !== -1) {
+        matches.push({ from: index, to: index + query.length });
+        index++;
+      }
+    } else {
+      // Case-insensitive search
+      const lowerContent = content.toLowerCase();
+      const lowerQuery = query.toLowerCase();
+      let index = 0;
+      while ((index = lowerContent.indexOf(lowerQuery, index)) !== -1) {
+        matches.push({ from: index, to: index + query.length });
+        index++;
+      }
     }
 
     this.searchState.matches = matches;
