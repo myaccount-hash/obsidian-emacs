@@ -124,6 +124,22 @@ export default class EmacsKeybindingsPlugin extends Plugin {
     });
 
     this.addCommand({
+      id: 'kill-word',
+      name: 'Kill word',
+      editorCallback: async (editor: Editor) => {
+        await this.markManager.killWord(editor);
+      },
+    });
+
+    this.addCommand({
+      id: 'backward-kill-word',
+      name: 'Backward kill word',
+      editorCallback: async (editor: Editor) => {
+        await this.markManager.backwardKillWord(editor);
+      },
+    });
+
+    this.addCommand({
       id: 'yank',
       name: 'Yank',
       editorCallback: async (editor: Editor) => {
