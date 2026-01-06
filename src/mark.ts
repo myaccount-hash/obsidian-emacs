@@ -163,7 +163,7 @@ export class MarkManager {
     if (match) {
       return {
         line: from.line,
-        ch: from.ch + match.index + match[0].length
+        ch: from.ch + match.index + match[0].length,
       };
     }
 
@@ -211,7 +211,7 @@ export class MarkManager {
       const prevLine = editor.getLine(from.line - 1);
       return this.findPrevWordStart(editor, {
         line: from.line - 1,
-        ch: prevLine.length
+        ch: prevLine.length,
       });
     }
 
