@@ -20,35 +20,36 @@ Emacsのデフォルトキーバインドと，対応するコマンド一覧で
 
 ### Cursor movement
 
-| Command | Emacs key |
-| --- | --- |
-| Forward char | `C-f` |
-| Backward char | `C-b` |
-| Next line | `C-n` |
-| Previous line | `C-p` |
-| Beginning of line | `C-a` |
-| End of line | `C-e` |
-| Beginning of buffer | `M-<` |
-| End of buffer | `M->` |
+| Command             | Emacs key |
+| ------------------- | --------- |
+| Forward char        | `C-f`     |
+| Backward char       | `C-b`     |
+| Next line           | `C-n`     |
+| Previous line       | `C-p`     |
+| Beginning of line   | `C-a`     |
+| End of line         | `C-e`     |
+| Beginning of buffer | `M-<`     |
+| End of buffer       | `M->`     |
 
 ### Mark / region
 
-| Command | Emacs key |
-| --- | --- |
-| Set mark | `C-SPC` |
-| Keyboard quit (clear mark) | `C-g` |
+| Command                    | Emacs key |
+| -------------------------- | --------- |
+| Set mark                   | `C-SPC`   |
+| Keyboard quit (clear mark) | `C-g`     |
 
 ### Kill / yank
 
-| Command | Emacs key |
-| --- | --- |
-| Kill region | `C-w` |
-| Kill line | `C-k` |
-| Yank | `C-y` |
+| Command     | Emacs key |
+| ----------- | --------- |
+| Copy region | `M-w`     |
+| Kill region | `C-w`     |
+| Kill line   | `C-k`     |
+| Yank        | `C-y`     |
 
 ### Incremental search
 
-| Command | Emacs key |
-| --- | --- |
-| Isearch forward | `C-s` |
-| Isearch backward | `C-r` |
+| Command          | Emacs key |
+| ---------------- | --------- |
+| Isearch forward  | `C-s`     |
+| Isearch backward | `C-r`     |

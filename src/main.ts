@@ -84,6 +84,14 @@ export default class EmacsKeybindingsPlugin extends Plugin {
     });
 
     this.addCommand({
+      id: 'copy-region',
+      name: 'Copy region',
+      editorCallback: async (editor: Editor) => {
+        await this.markManager.copyRegion(editor);
+      },
+    });
+
+    this.addCommand({
       id: 'kill-region',
       name: 'Kill region',
       editorCallback: async (editor: Editor) => {

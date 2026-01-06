@@ -59,6 +59,18 @@ export class MarkManager {
   }
 
   /**
+   * Copy text from the mark to the cursor to the clipboard (without deleting).
+   */
+  async copyRegion(editor: Editor) {
+    if (!this.markPos) return;
+
+    const text = editor.getRange(this.markPos, editor.getCursor());
+    await navigator.clipboard.writeText(text);
+    this.markPos = null;
+    editor.setCursor(editor.getCursor());
+  }
+
+  /**
    * Delete text from the mark to the cursor and copy to the clipboard.
    */
   async killRegion(editor: Editor) {
