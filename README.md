@@ -59,172 +59,130 @@ To use mark and region functionality, assign movement commands (e.g. Backward ch
 | Isearch backward | `C-r`     |
 
 ### Keybind Settings Example
+
 Here is a sample configuration for `.obsidian/hotkeys.json`.
 
 以下は`.obsidian/hotkeys.json`のサンプル設定です.
+
 ```json
 {
   "emacs-isearch-mark:backward-char": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": "B"
     }
   ],
   "emacs-isearch-mark:beginning-of-buffer": [
     {
-      "modifiers": [
-        "Alt"
-      ],
+      "modifiers": ["Alt"],
       "key": ","
     }
   ],
   "emacs-isearch-mark:beginning-of-line": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": "A"
     }
   ],
   "emacs-isearch-mark:end-of-buffer": [
     {
-      "modifiers": [
-        "Alt"
-      ],
+      "modifiers": ["Alt"],
       "key": "."
     }
   ],
   "emacs-isearch-mark:end-of-line": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": "E"
     }
   ],
   "emacs-isearch-mark:forward-char": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": "F"
     }
   ],
   "emacs-isearch-mark:isearch-backward": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": "R"
     }
   ],
   "emacs-isearch-mark:isearch-forward": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": "S"
     }
   ],
   "emacs-isearch-mark:keyboard-quit": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": "G"
     }
   ],
   "emacs-isearch-mark:kill-line": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": "K"
     }
   ],
   "emacs-isearch-mark:kill-region": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": "W"
     }
   ],
   "emacs-isearch-mark:next-line": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": "N"
     }
   ],
   "emacs-isearch-mark:previous-line": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": "P"
     }
   ],
   "emacs-isearch-mark:set-mark": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": " "
     }
   ],
   "emacs-isearch-mark:yank": [
     {
-      "modifiers": [
-        "Ctrl"
-      ],
+      "modifiers": ["Ctrl"],
       "key": "Y"
     }
   ],
   "emacs-isearch-mark:copy-region": [
     {
-      "modifiers": [
-        "Alt"
-      ],
+      "modifiers": ["Alt"],
       "key": "W"
     }
   ],
   "emacs-isearch-mark:backward-word": [
     {
-      "modifiers": [
-        "Alt",
-        "Ctrl"
-      ],
+      "modifiers": ["Alt", "Ctrl"],
       "key": "B"
     }
   ],
   "emacs-isearch-mark:forward-word": [
     {
-      "modifiers": [
-        "Alt",
-        "Ctrl"
-      ],
+      "modifiers": ["Alt", "Ctrl"],
       "key": "F"
     }
   ],
   "emacs-isearch-mark:kill-word": [
     {
-      "modifiers": [
-        "Alt",
-        "Ctrl"
-      ],
+      "modifiers": ["Alt", "Ctrl"],
       "key": "D"
     }
   ],
   "emacs-isearch-mark:backward-kill-word": [
     {
-      "modifiers": [
-        "Alt",
-        "Ctrl"
-      ],
+      "modifiers": ["Alt", "Ctrl"],
       "key": "H"
     }
   ]
