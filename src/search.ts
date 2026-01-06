@@ -1,4 +1,4 @@
-// search.ts
+// src/search.ts
 import { Editor, EditorPosition, Plugin } from 'obsidian';
 import { Decoration, DecorationSet, EditorView, ViewPlugin, ViewUpdate } from '@codemirror/view';
 import { RangeSetBuilder, StateEffect, StateField } from '@codemirror/state';

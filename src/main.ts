@@ -1,4 +1,4 @@
-// main.ts
+// src/main.ts
 import { App, Plugin, PluginSettingTab, Setting, Editor } from 'obsidian';
 import { SearchManager, searchPlugin } from './search';
 import { MarkManager } from './mark';
