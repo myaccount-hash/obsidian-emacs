@@ -4,7 +4,7 @@ import { Decoration, DecorationSet, EditorView, ViewPlugin, ViewUpdate } from '@
 import { RangeSetBuilder, StateEffect, StateField } from '@codemirror/state';
 
 /**
- * 検索状態を管理するインターフェース
+ * Interface for managing search state.
  */
 interface SearchState {
   active: boolean;
@@ -15,12 +15,12 @@ interface SearchState {
 }
 
 /**
- * 検索状態更新用のStateEffect
+ * StateEffect for updating search state.
  */
 const updateSearchState = StateEffect.define<SearchState>();
 
 /**
- * 検索状態を保持するStateField
+ * StateField that stores search state.
  */
 const searchStateField = StateField.define<SearchState>({
   create: () => ({
@@ -41,13 +41,13 @@ const searchStateField = StateField.define<SearchState>({
 });
 
 /**
- * 検索ハイライト用のDecoration
+ * Decorations for search highlights.
  */
 const searchHighlight = Decoration.mark({ class: 'search-highlight' });
 const currentHighlight = Decoration.mark({ class: 'search-highlight-current' });
 
 /**
- * 検索ハイライトを提供するViewPlugin
+ * ViewPlugin that provides search highlights.
  */
 const searchHighlightPlugin = ViewPlugin.fromClass(class {
   decorations: DecorationSet;
@@ -80,12 +80,12 @@ const searchHighlightPlugin = ViewPlugin.fromClass(class {
 });
 
 /**
- * 検索プラグインのエクスポート
+ * Search plugin export.
  */
 export const searchPlugin = [searchStateField, searchHighlightPlugin];
 
 /**
- * インクリメンタル検索を管理するクラス
+ * Class that manages incremental search.
  */
 export class SearchManager {
   private searchState: SearchState = {
@@ -102,14 +102,14 @@ export class SearchManager {
   constructor(private plugin: Plugin) { }
 
   /**
-   * 検索が有効かどうか
+   * Whether search is active.
    */
   isSearchActive(): boolean {
     return this.searchState.active;
   }
 
   /**
-   * インクリメンタル検索を開始
+   * Start incremental search.
    */
   startSearch(editor: Editor, direction: 'forward' | 'backward') {
     this.currentEditor = editor;
@@ -124,7 +124,7 @@ export class SearchManager {
   }
 
   /**
-   * エディタの検索状態を更新
+   * Update the editor search state.
    */
   private updateEditorState(editor: Editor) {
     const view = (editor as any).cm as EditorView;
@@ -134,7 +134,7 @@ export class SearchManager {
   }
 
   /**
-   * ミニバッファを作成
+   * Create the minibuffer.
    */
   private createMinibuffer(editor: Editor) {
     const editorEl = (editor as any).cm.dom as HTMLElement;
@@ -191,7 +191,7 @@ export class SearchManager {
   }
 
   /**
-   * 入力ハンドラを設定
+   * Attach input handlers.
    */
   private attachInputHandlers(editor: Editor) {
     if (!this.inputEl) return;
@@ -214,7 +214,7 @@ export class SearchManager {
   }
 
   /**
-   * 検索を実行
+   * Perform a search.
    */
   private performSearch(editor: Editor, query: string) {
     if (!query || !this.searchState.startPos) {
@@ -251,7 +251,7 @@ export class SearchManager {
   }
 
   /**
-   * 最も近いマッチを検索
+   * Find the nearest match.
    */
   private findNearestMatch(matches: { from: number; to: number }[], startOffset: number, direction: 'forward' | 'backward'): number {
     if (direction === 'forward') {
@@ -268,7 +268,7 @@ export class SearchManager {
   }
 
   /**
-   * 次の検索結果に移動
+   * Move to the next match.
    */
   searchNext(editor: Editor, direction: 'forward' | 'backward') {
     if (!this.searchState.active) return;
@@ -286,7 +286,7 @@ export class SearchManager {
   }
 
   /**
-   * 現在のマッチ位置に移動
+   * Move to the current match.
    */
   private moveToCurrentMatch(editor: Editor) {
     if (this.searchState.currentIndex === -1) return;
@@ -299,7 +299,7 @@ export class SearchManager {
   }
 
   /**
-   * ラベルを更新
+   * Update the label.
    */
   private updateLabel(text: string) {
     const label = this.minibufferEl?.querySelector('span');
@@ -307,7 +307,7 @@ export class SearchManager {
   }
 
   /**
-   * 検索を終了
+   * Exit search.
    */
   private exitSearch(editor: Editor, restore: boolean) {
     if (restore && this.searchState.startPos) {
@@ -333,13 +333,13 @@ export class SearchManager {
     this.inputEl = null;
     this.currentEditor = null;
 
-    // エディタにフォーカスを戻す
+    // Return focus to the editor.
     const view = (editor as any).cm as EditorView;
     view.focus();
   }
   /**
-  * 検索をキャンセル
-  */
+   * Cancel search.
+   */
   cancelSearch(editor: Editor) {
     if (!this.searchState.active) return;
     this.exitSearch(editor, true);

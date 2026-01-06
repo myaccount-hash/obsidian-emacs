@@ -1,15 +1,15 @@
 import { Editor, EditorPosition } from 'obsidian';
 
 /**
- * マーク管理とカーソル移動を担当するクラス
- * Emacsのマーク機能，カーソル移動，Kill/Yank操作を実装
+ * Class responsible for mark management and cursor movement.
+ * Implements Emacs mark, cursor movement, and kill/yank operations.
  */
 export class MarkManager {
   private markPos: EditorPosition | null = null;
 
   /**
-   * マークを設定またはクリア
-   * マークが設定されていない場合は現在位置に設定，設定されている場合はクリア
+   * Set or clear the mark.
+   * If the mark is not set, set it to the current position; otherwise clear it.
    */
   setMark(editor: Editor) {
     this.markPos = this.markPos ? null : editor.getCursor();
@@ -17,8 +17,8 @@ export class MarkManager {
   }
 
   /**
-   * カーソルを移動
-   * マークが設定されている場合は選択範囲を拡張，そうでない場合は単純に移動
+   * Move the cursor.
+   * If the mark is set, extend the selection; otherwise just move.
    */
   moveCursor(editor: Editor, newPos: EditorPosition) {
     if (this.markPos) {
@@ -29,19 +29,19 @@ export class MarkManager {
   }
 
   /**
-   * 相対位置でカーソルを移動
-   * @param lineDelta 行の移動量
-   * @param chDelta 文字の移動量
+   * Move the cursor by a relative offset.
+   * @param lineDelta Line delta.
+   * @param chDelta Character delta.
    */
   moveByOffset(editor: Editor, lineDelta: number, chDelta: number) {
     const cursor = editor.getCursor();
     const newLine = cursor.line + lineDelta;
     const newCh = cursor.ch + chDelta;
 
-    // 範囲外チェック
+    // Out-of-range guard.
     if (newLine < 0 || newLine >= editor.lineCount()) return;
 
-    // 行の長さに収まるように調整
+    // Clamp to line length.
     const lineLength = editor.getLine(newLine).length;
     const clampedCh = Math.max(0, Math.min(newCh, lineLength));
 
@@ -49,8 +49,8 @@ export class MarkManager {
   }
 
   /**
-   * 行の先頭または末尾に移動
-   * @param position 'beginning' または 'end'
+   * Move to the beginning or end of the line.
+   * @param position 'beginning' or 'end'.
    */
   moveToLinePosition(editor: Editor, position: 'beginning' | 'end') {
     const cursor = editor.getCursor();
@@ -59,7 +59,7 @@ export class MarkManager {
   }
 
   /**
-   * マーク位置から現在位置までのテキストを削除してクリップボードにコピー
+   * Delete text from the mark to the cursor and copy to the clipboard.
    */
   async killRegion(editor: Editor) {
     if (!this.markPos) return;
@@ -71,7 +71,7 @@ export class MarkManager {
   }
 
   /**
-   * 現在位置から行末までのテキストを削除してクリップボードにコピー
+   * Delete text from the cursor to the end of the line and copy to the clipboard.
    */
   async killLine(editor: Editor) {
     const cursor = editor.getCursor();
@@ -82,23 +82,23 @@ export class MarkManager {
   }
 
   /**
-   * クリップボードのテキストを現在位置に貼り付け
+   * Paste clipboard text at the current position.
    */
   async yank(editor: Editor) {
     const text = await navigator.clipboard.readText();
     editor.replaceSelection(text);
   }
   /**
- * マークをクリア
- */
+   * Clear the mark.
+   */
   clearMark(editor: Editor) {
     this.markPos = null;
     editor.setCursor(editor.getCursor());
   }
   /**
- * バッファの先頭または末尾に移動
- * @param position 'beginning' または 'end'
- */
+   * Move to the beginning or end of the buffer.
+   * @param position 'beginning' or 'end'.
+   */
   moveToBufferPosition(editor: Editor, position: 'beginning' | 'end') {
     if (position === 'beginning') {
       this.moveCursor(editor, { line: 0, ch: 0 });

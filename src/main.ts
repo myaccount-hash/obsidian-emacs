@@ -13,7 +13,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
     this.searchManager = new SearchManager(this);
     this.markManager = new MarkManager();
 
-    // main.ts に追加
+    // Added in main.ts.
     this.addCommand({
       id: 'beginning-of-buffer',
       name: 'Beginning of buffer',
