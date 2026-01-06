@@ -17,7 +17,6 @@ export default class EmacsKeybindingsPlugin extends Plugin {
     this.addCommand({
       id: 'beginning-of-buffer',
       name: 'Beginning of buffer',
-      hotkeys: [{ modifiers: ['Alt'], key: '<' }],
       editorCallback: (editor: Editor) => {
         this.markManager.moveToBufferPosition(editor, 'beginning');
       }
@@ -26,7 +25,6 @@ export default class EmacsKeybindingsPlugin extends Plugin {
     this.addCommand({
       id: 'end-of-buffer',
       name: 'End of buffer',
-      hotkeys: [{ modifiers: ['Alt'], key: '>' }],
       editorCallback: (editor: Editor) => {
         this.markManager.moveToBufferPosition(editor, 'end');
       }
@@ -35,7 +33,6 @@ export default class EmacsKeybindingsPlugin extends Plugin {
     this.addCommand({
       id: 'keyboard-quit',
       name: 'Keyboard quit',
-      hotkeys: [{ modifiers: ['Ctrl'], key: 'g' }],
       editorCallback: (editor: Editor) => {
         if (this.searchManager.isSearchActive()) {
           this.searchManager.cancelSearch(editor);
@@ -113,7 +110,6 @@ export default class EmacsKeybindingsPlugin extends Plugin {
     this.addCommand({
       id: 'isearch-forward',
       name: 'Isearch forward',
-      hotkeys: [{ modifiers: ['Ctrl'], key: 's' }],
       editorCallback: (editor: Editor) => {
         if (this.searchManager.isSearchActive()) {
           this.searchManager.searchNext(editor, 'forward');
@@ -126,7 +122,6 @@ export default class EmacsKeybindingsPlugin extends Plugin {
     this.addCommand({
       id: 'isearch-backward',
       name: 'Isearch backward',
-      hotkeys: [{ modifiers: ['Ctrl'], key: 'r' }],
       editorCallback: (editor: Editor) => {
         if (this.searchManager.isSearchActive()) {
           this.searchManager.searchNext(editor, 'backward');
