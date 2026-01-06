@@ -13,17 +13,22 @@ export class MarkManager {
   }
 
   /**
-   * Get the word pattern regex based on boundary characters.
-   * Word pattern matches characters that are NOT boundary characters.
+   * Convert boundary characters string into a Set.
+   * Supports escaped "\t" and "\n" sequences.
    */
-  private getWordPattern(): RegExp {
-    // Dynamically get current boundary characters
-    const boundaryChars = this.getWordBoundaryChars();
-    // Replace \t and \n with actual tab and newline first
-    const processed = boundaryChars.replace(/\\t/g, '\t').replace(/\\n/g, '\n');
-    // Escape special regex characters (- at start to avoid range interpretation, ] near start)
-    const escaped = processed.replace(/[-[\]\\{}()*+?.,^$|#]/g, '\\$&');
-    return new RegExp(`[^${escaped}]+`, 'g');
+  private getBoundarySet(): Set<string> {
+    const s = this.getWordBoundaryChars()
+      .replace(/\\t/g, '\t')
+      .replace(/\\n/g, '\n');
+    return new Set([...s]);
+  }
+
+  /**
+   * Determine whether a character is considered part of a word.
+   * Word char = not in boundary set.
+   */
+  private isWordChar(ch: string, boundary: Set<string>): boolean {
+    return ch.length === 1 && !boundary.has(ch);
   }
 
   /**
@@ -80,6 +85,20 @@ export class MarkManager {
     const cursor = editor.getCursor();
     const ch = position === 'beginning' ? 0 : editor.getLine(cursor.line).length;
     this.moveCursor(editor, { line: cursor.line, ch });
+  }
+
+  /**
+   * Move to the beginning or end of the buffer.
+   * @param position 'beginning' or 'end'.
+   */
+  moveToBufferPosition(editor: Editor, position: 'beginning' | 'end') {
+    if (position === 'beginning') {
+      this.moveCursor(editor, { line: 0, ch: 0 });
+    } else {
+      const lastLine = editor.lineCount() - 1;
+      const lastCh = editor.getLine(lastLine).length;
+      this.moveCursor(editor, { line: lastLine, ch: lastCh });
+    }
   }
 
   /**
@@ -142,42 +161,36 @@ export class MarkManager {
   }
 
   /**
-   * Move to the beginning or end of the buffer.
-   * @param position 'beginning' or 'end'.
-   */
-  moveToBufferPosition(editor: Editor, position: 'beginning' | 'end') {
-    if (position === 'beginning') {
-      this.moveCursor(editor, { line: 0, ch: 0 });
-    } else {
-      const lastLine = editor.lineCount() - 1;
-      const lastCh = editor.getLine(lastLine).length;
-      this.moveCursor(editor, { line: lastLine, ch: lastCh });
-    }
-  }
-
-  /**
    * Find the end position of the next word from the given position.
-   * Word boundary: whitespace and underscore.
-   * @param editor The editor instance.
-   * @param from The starting position.
-   * @returns The end position of the next word, or null if not found.
+   * Word char = not in boundary set.
    */
   private findNextWordEnd(editor: Editor, from: EditorPosition): EditorPosition | null {
-    const line = editor.getLine(from.line);
-    const restOfLine = line.substring(from.ch);
+    const boundary = this.getBoundarySet();
 
-    const wordPattern = this.getWordPattern();
-    const match = wordPattern.exec(restOfLine);
+    let line = from.line;
+    let ch = from.ch;
 
-    if (match) {
-      return {
-        line: from.line,
-        ch: from.ch + match.index + match[0].length,
-      };
-    }
+    while (line < editor.lineCount()) {
+      const text = editor.getLine(line);
 
-    if (from.line < editor.lineCount() - 1) {
-      return this.findNextWordEnd(editor, { line: from.line + 1, ch: 0 });
+      // If already inside a word, go to its end.
+      if (ch < text.length && this.isWordChar(text[ch], boundary)) {
+        while (ch < text.length && this.isWordChar(text[ch], boundary)) ch++;
+        return { line, ch };
+      }
+
+      // Skip boundary chars to the start of the next word.
+      while (ch < text.length && !this.isWordChar(text[ch], boundary)) ch++;
+
+      // Found next word: move to its end.
+      if (ch < text.length) {
+        while (ch < text.length && this.isWordChar(text[ch], boundary)) ch++;
+        return { line, ch };
+      }
+
+      // Next line.
+      line++;
+      ch = 0;
     }
 
     return null;
@@ -185,43 +198,48 @@ export class MarkManager {
 
   /**
    * Find the start position of the previous word from the given position.
-   * Word boundary: whitespace and underscore.
-   * @param editor The editor instance.
-   * @param from The starting position.
-   * @returns The start position of the previous word, or null if not found.
+   * Word char = not in boundary set.
    */
   private findPrevWordStart(editor: Editor, from: EditorPosition): EditorPosition | null {
-    const line = editor.getLine(from.line);
-    const beforeCursor = line.substring(0, from.ch);
+    const boundary = this.getBoundarySet();
 
-    const wordPattern = this.getWordPattern();
+    let line = from.line;
+    let ch = from.ch;
 
-    const words: Array<{ index: number; length: number }> = [];
-    let match;
-    while ((match = wordPattern.exec(beforeCursor)) !== null) {
-      words.push({ index: match.index, length: match[0].length });
-    }
+    while (line >= 0) {
+      const text = editor.getLine(line);
 
-    if (words.length > 0) {
-      const lastWord = words[words.length - 1];
-      const lastWordEnd = lastWord.index + lastWord.length;
-
-      if (from.ch > lastWordEnd) {
-        return { line: from.line, ch: lastWord.index };
-      } else if (from.ch === lastWord.index && words.length > 1) {
-        const prevWord = words[words.length - 2];
-        return { line: from.line, ch: prevWord.index };
-      } else {
-        return { line: from.line, ch: lastWord.index };
+      // If at beginning of line, jump to previous line end.
+      if (ch === 0) {
+        if (line === 0) return null;
+        line--;
+        ch = editor.getLine(line).length;
+        continue;
       }
-    }
 
-    if (from.line > 0) {
-      const prevLine = editor.getLine(from.line - 1);
-      return this.findPrevWordStart(editor, {
-        line: from.line - 1,
-        ch: prevLine.length,
-      });
+      // Step left once so "at word start" goes to previous word.
+      ch = Math.min(ch, text.length);
+      ch--;
+
+      // Skip boundary chars to the left.
+      while (ch >= 0 && !this.isWordChar(text[ch], boundary)) ch--;
+
+      // Skip word chars to the left to reach the start.
+      while (ch >= 0 && this.isWordChar(text[ch], boundary)) ch--;
+
+      // Start is one char to the right.
+      const start = ch + 1;
+      if (start >= 0 && start <= text.length) {
+        // Ensure we actually found a word start on this line.
+        if (start < text.length && this.isWordChar(text[start], boundary)) {
+          return { line, ch: start };
+        }
+      }
+
+      // Previous line.
+      if (line === 0) return null;
+      line--;
+      ch = editor.getLine(line).length;
     }
 
     return null;
@@ -229,7 +247,6 @@ export class MarkManager {
 
   /**
    * Move forward to the end of the next word.
-   * Word boundary: whitespace and underscore.
    */
   forwardWord(editor: Editor) {
     const cursor = editor.getCursor();
@@ -240,8 +257,18 @@ export class MarkManager {
   }
 
   /**
-   * Delete from cursor to the end of the next word.
-   * Word boundary: whitespace and underscore.
+   * Move backward to the beginning of the previous word.
+   */
+  backwardWord(editor: Editor) {
+    const cursor = editor.getCursor();
+    const startPos = this.findPrevWordStart(editor, cursor);
+    if (startPos) {
+      this.moveCursor(editor, startPos);
+    }
+  }
+
+  /**
+   * Delete from cursor to the end of the next word and copy to the clipboard.
    */
   async killWord(editor: Editor) {
     const startCursor = editor.getCursor();
@@ -254,8 +281,7 @@ export class MarkManager {
   }
 
   /**
-   * Delete from cursor to the beginning of the previous word.
-   * Word boundary: whitespace and underscore.
+   * Delete from cursor to the beginning of the previous word and copy to the clipboard.
    */
   async backwardKillWord(editor: Editor) {
     const endCursor = editor.getCursor();
@@ -265,17 +291,5 @@ export class MarkManager {
     const text = editor.getRange(startCursor, endCursor);
     await navigator.clipboard.writeText(text);
     editor.replaceRange('', startCursor, endCursor);
-  }
-
-  /**
-   * Move backward to the beginning of the previous word.
-   * Word boundary: whitespace and underscore.
-   */
-  backwardWord(editor: Editor) {
-    const cursor = editor.getCursor();
-    const startPos = this.findPrevWordStart(editor, cursor);
-    if (startPos) {
-      this.moveCursor(editor, startPos);
-    }
   }
 }
