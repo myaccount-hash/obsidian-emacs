@@ -35,7 +35,7 @@ const searchStateField = StateField.define<SearchState>({
     direction: 'forward',
     startPos: null,
     currentIndex: -1,
-    matches: []
+    matches: [],
   }),
   update: (state, tr) => {
     for (const effect of tr.effects) {
@@ -44,7 +44,7 @@ const searchStateField = StateField.define<SearchState>({
       }
     }
     return state;
-  }
+  },
 });
 
 /**
@@ -56,35 +56,41 @@ const currentHighlight = Decoration.mark({ class: 'search-highlight-current' });
 /**
  * ViewPlugin that provides search highlights.
  */
-const searchHighlightPlugin = ViewPlugin.fromClass(class {
-  decorations: DecorationSet;
+const searchHighlightPlugin = ViewPlugin.fromClass(
+  class {
+    decorations: DecorationSet;
 
-  constructor(view: EditorView) {
-    this.decorations = this.buildDecorations(view);
-  }
-
-  update(update: ViewUpdate) {
-    if (update.docChanged || update.transactions.some(tr => tr.effects.some(e => e.is(updateSearchState)))) {
-      this.decorations = this.buildDecorations(update.view);
-    }
-  }
-
-  buildDecorations(view: EditorView): DecorationSet {
-    const state = view.state.field(searchStateField);
-    if (!state.active || state.matches.length === 0) {
-      return Decoration.none;
+    constructor(view: EditorView) {
+      this.decorations = this.buildDecorations(view);
     }
 
-    const builder = new RangeSetBuilder<Decoration>();
-    state.matches.forEach((match, index) => {
-      const deco = index === state.currentIndex ? currentHighlight : searchHighlight;
-      builder.add(match.from, match.to, deco);
-    });
-    return builder.finish();
+    update(update: ViewUpdate) {
+      if (
+        update.docChanged ||
+        update.transactions.some(tr => tr.effects.some(e => e.is(updateSearchState)))
+      ) {
+        this.decorations = this.buildDecorations(update.view);
+      }
+    }
+
+    buildDecorations(view: EditorView): DecorationSet {
+      const state = view.state.field(searchStateField);
+      if (!state.active || state.matches.length === 0) {
+        return Decoration.none;
+      }
+
+      const builder = new RangeSetBuilder<Decoration>();
+      state.matches.forEach((match, index) => {
+        const deco = index === state.currentIndex ? currentHighlight : searchHighlight;
+        builder.add(match.from, match.to, deco);
+      });
+      return builder.finish();
+    }
+  },
+  {
+    decorations: v => v.decorations,
   }
-}, {
-  decorations: v => v.decorations
-});
+);
 
 /**
  * Search plugin export.
@@ -100,12 +106,12 @@ export class SearchManager {
     direction: 'forward',
     startPos: null,
     currentIndex: -1,
-    matches: []
+    matches: [],
   };
   private minibufferEl: HTMLElement | null = null;
   private inputEl: HTMLInputElement | null = null;
 
-  constructor(private plugin: Plugin) { }
+  constructor(private plugin: Plugin) {}
 
   /**
    * Whether search is active.
@@ -134,7 +140,7 @@ export class SearchManager {
   private updateEditorState(editor: Editor) {
     const view = (editor as EditorWithCM).cm;
     view.dispatch({
-      effects: updateSearchState.of(this.searchState)
+      effects: updateSearchState.of(this.searchState),
     });
   }
 
@@ -151,7 +157,8 @@ export class SearchManager {
     this.minibufferEl.className = 'emacs-minibuffer';
 
     const label = document.createElement('span');
-    label.textContent = this.searchState.direction === 'forward' ? 'I-search:' : 'I-search backward:';
+    label.textContent =
+      this.searchState.direction === 'forward' ? 'I-search:' : 'I-search backward:';
     label.className = 'emacs-minibuffer-label';
 
     this.inputEl = document.createElement('input');
@@ -217,7 +224,11 @@ export class SearchManager {
 
     if (matches.length > 0) {
       const startOffset = editor.posToOffset(this.searchState.startPos);
-      this.searchState.currentIndex = this.findNearestMatch(matches, startOffset, this.searchState.direction);
+      this.searchState.currentIndex = this.findNearestMatch(
+        matches,
+        startOffset,
+        this.searchState.direction
+      );
       this.moveToCurrentMatch(editor);
     } else {
       this.searchState.currentIndex = -1;
@@ -230,7 +241,11 @@ export class SearchManager {
   /**
    * Find the nearest match.
    */
-  private findNearestMatch(matches: { from: number; to: number }[], startOffset: number, direction: 'forward' | 'backward'): number {
+  private findNearestMatch(
+    matches: { from: number; to: number }[],
+    startOffset: number,
+    direction: 'forward' | 'backward'
+  ): number {
     if (direction === 'forward') {
       for (let i = 0; i < matches.length; i++) {
         if (matches[i].from >= startOffset) return i;
@@ -253,9 +268,12 @@ export class SearchManager {
     if (this.searchState.matches.length === 0) return;
 
     if (direction === 'forward') {
-      this.searchState.currentIndex = (this.searchState.currentIndex + 1) % this.searchState.matches.length;
+      this.searchState.currentIndex =
+        (this.searchState.currentIndex + 1) % this.searchState.matches.length;
     } else {
-      this.searchState.currentIndex = (this.searchState.currentIndex - 1 + this.searchState.matches.length) % this.searchState.matches.length;
+      this.searchState.currentIndex =
+        (this.searchState.currentIndex - 1 + this.searchState.matches.length) %
+        this.searchState.matches.length;
     }
 
     this.moveToCurrentMatch(editor);

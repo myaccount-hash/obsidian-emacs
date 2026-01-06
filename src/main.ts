@@ -19,7 +19,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
       name: 'Beginning of buffer',
       editorCallback: (editor: Editor) => {
         this.markManager.moveToBufferPosition(editor, 'beginning');
-      }
+      },
     });
 
     this.addCommand({
@@ -27,7 +27,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
       name: 'End of buffer',
       editorCallback: (editor: Editor) => {
         this.markManager.moveToBufferPosition(editor, 'end');
-      }
+      },
     });
 
     this.addCommand({
@@ -39,7 +39,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
         } else {
           this.markManager.clearMark(editor);
         }
-      }
+      },
     });
 
     this.addCommand({
@@ -47,7 +47,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
       name: 'Set mark',
       editorCallback: (editor: Editor) => {
         this.markManager.setMark(editor);
-      }
+      },
     });
 
     const movements = [
@@ -63,7 +63,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
         name: m.name,
         editorCallback: (editor: Editor) => {
           this.markManager.moveByOffset(editor, m.line, m.ch);
-        }
+        },
       });
     });
 
@@ -72,7 +72,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
       name: 'Beginning of line',
       editorCallback: (editor: Editor) => {
         this.markManager.moveToLinePosition(editor, 'beginning');
-      }
+      },
     });
 
     this.addCommand({
@@ -80,7 +80,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
       name: 'End of line',
       editorCallback: (editor: Editor) => {
         this.markManager.moveToLinePosition(editor, 'end');
-      }
+      },
     });
 
     this.addCommand({
@@ -88,7 +88,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
       name: 'Kill region',
       editorCallback: async (editor: Editor) => {
         await this.markManager.killRegion(editor);
-      }
+      },
     });
 
     this.addCommand({
@@ -96,7 +96,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
       name: 'Kill line',
       editorCallback: async (editor: Editor) => {
         await this.markManager.killLine(editor);
-      }
+      },
     });
 
     this.addCommand({
@@ -104,7 +104,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
       name: 'Yank',
       editorCallback: async (editor: Editor) => {
         await this.markManager.yank(editor);
-      }
+      },
     });
 
     this.addCommand({
@@ -116,7 +116,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
         } else {
           this.searchManager.startSearch(editor, 'forward');
         }
-      }
+      },
     });
 
     this.addCommand({
@@ -128,7 +128,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
         } else {
           this.searchManager.startSearch(editor, 'backward');
         }
-      }
+      },
     });
   }
 }
