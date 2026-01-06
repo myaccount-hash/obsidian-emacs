@@ -1,0 +1,23 @@
+{
+  "name": "obsidian-emacs",
+  "version": "1.0.0",
+  "description": "Emacs keybindings for Obsidian with incremental search and mark set",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild main.ts --bundle --platform=node --external:obsidian --external:@codemirror/* --external:@lezer/* --outfile=main.js --format=cjs",
+    "dev": "esbuild main.ts --bundle --platform=node --external:obsidian --external:@codemirror/* --external:@lezer/* --outfile=main.js --format=cjs --watch"
+  },
+  "keywords": ["obsidian", "obsidian-plugin", "emacs", "keybindings"],
+  "author": "shotawake",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/myaccount-hash/obsidian-emacs"
+  },
+  "type": "commonjs",
+  "devDependencies": {
+    "esbuild": "^0.27.2",
+    "obsidian": "^1.11.0",
+    "typescript": "^5.9.3"
+  }
+}
