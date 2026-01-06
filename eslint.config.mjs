@@ -1,24 +1,28 @@
-import tseslint from '@typescript-eslint/eslint-plugin';
-import tsparser from '@typescript-eslint/parser';
+import tsparser from "@typescript-eslint/parser";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import obsidianmd from "eslint-plugin-obsidianmd";
 
 export default [
   {
-    files: ['src/**/*.ts'],
+    files: ["**/*.ts"],
     languageOptions: {
       parser: tsparser,
-      parserOptions: {
-        sourceType: 'module'
-      }
+      parserOptions: { project: "./tsconfig.json" },
     },
     plugins: {
-      '@typescript-eslint': tseslint
+      "@typescript-eslint": tseslint,
+      obsidianmd,
     },
     rules: {
-      'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
-      '@typescript-eslint/ban-ts-comment': 'off',
-      'no-prototype-builtins': 'off',
-      '@typescript-eslint/no-empty-function': 'off'
-    }
-  }
+      // TypeScript rules
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["error", { args: "none" }],
+      "@typescript-eslint/ban-ts-comment": "off",
+      "no-prototype-builtins": "off",
+      "@typescript-eslint/no-empty-function": "off",
+
+      // Obsidian plugin recommended rules
+      ...obsidianmd.configs.recommended,
+    },
+  },
 ];
