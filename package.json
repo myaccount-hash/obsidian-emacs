@@ -1,18 +1,18 @@
 {
-  "name": "obsidian-emacs",
+  "name": "obsidian-emacs-isearch-mark",
   "version": "1.0.0",
-  "description": "Emacs keybindings for Obsidian with incremental search and mark set",
+  "description": "Emacs keybindings for Obsidian with Isearch and mark set",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild main.ts --bundle --platform=node --external:obsidian --external:@codemirror/* --external:@lezer/* --outfile=main.js --format=cjs",
-    "dev": "esbuild main.ts --bundle --platform=node --external:obsidian --external:@codemirror/* --external:@lezer/* --outfile=main.js --format=cjs --watch"
+    "build": "esbuild src/main.ts --bundle --platform=node --external:obsidian --external:@codemirror/* --external:@lezer/* --outfile=main.js --format=cjs",
+    "dev": "esbuild src/main.ts --bundle --platform=node --external:obsidian --external:@codemirror/* --external:@lezer/* --outfile=main.js --format=cjs --watch"
   },
   "keywords": ["obsidian", "obsidian-plugin", "emacs", "keybindings"],
   "author": "myaccount-hash",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/myaccount-hash/obsidian-emacs"
+    "url": "https://github.com/myaccount-hash/obsidian-emacs-isearch-mark"
   },
   "type": "commonjs",
   "devDependencies": {

@@ -16,7 +16,7 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// main.ts
+// src/main.ts
 var main_exports = {};
 __export(main_exports, {
   default: () => EmacsKeybindingsPlugin
@@ -24,7 +24,7 @@ __export(main_exports, {
 module.exports = __toCommonJS(main_exports);
 var import_obsidian = require("obsidian");
 
-// search.ts
+// src/search.ts
 var import_view = require("@codemirror/view");
 var import_state = require("@codemirror/state");
 var updateSearchState = import_state.StateEffect.define();
@@ -296,7 +296,7 @@ var SearchManager = class {
   }
 };
 
-// mark.ts
+// src/mark.ts
 var MarkManager = class {
   constructor() {
     this.markPos = null;
@@ -392,7 +392,7 @@ var MarkManager = class {
   }
 };
 
-// main.ts
+// src/main.ts
 var EmacsKeybindingsPlugin = class extends import_obsidian.Plugin {
   async onload() {
     this.registerEditorExtension(searchPlugin);
