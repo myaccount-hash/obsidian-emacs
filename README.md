@@ -30,6 +30,9 @@ To use mark and region functionality, assign movement commands (e.g. Backward ch
 | End of line         | `C-e`     |
 | Beginning of buffer | `M-<`     |
 | End of buffer       | `M->`     |
+| -------------       | --------- |
+| Forward word        | `M-f`     |
+| Backward word       | `M-b`     |
 
 ### Mark / region
 
@@ -40,12 +43,14 @@ To use mark and region functionality, assign movement commands (e.g. Backward ch
 
 ### Kill / yank
 
-| Command     | Emacs key |
-| ----------- | --------- |
-| Copy region | `M-w`     |
-| Kill region | `C-w`     |
-| Kill line   | `C-k`     |
-| Yank        | `C-y`     |
+| Command            | Emacs key |
+| ------------------ | --------- |
+| Copy region        | `M-w`     |
+| Kill region        | `C-w`     |
+| Kill line          | `C-k`     |
+| Kill word          | `M-d`     |
+| Backward kill word | `M-DEL`   |
+| Yank               | `C-y`     |
 
 ### Incremental search
 
