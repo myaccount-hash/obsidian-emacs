@@ -1,3 +1,4 @@
+// src/mark.ts
 import { Editor, EditorPosition } from 'obsidian';
 
 /**
