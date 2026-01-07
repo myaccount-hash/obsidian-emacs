@@ -188,3 +188,7 @@ Here is a sample configuration for `.obsidian/hotkeys.json`.
   ]
 }
 ```
+
+## ToDo
+- [ ] ノートにフォーカスしている最中のみ移動系コマンドを有効にする．
+- [ ] 任意のキー操作でIsearchモードから抜ける．
