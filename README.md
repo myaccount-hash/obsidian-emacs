@@ -12,11 +12,11 @@ yankやkillはOSのクリップボードを使用します。"
 
 Emacs default keybindings and their corresponding commands.
 Key assignments must be configured manually in Obsidian.
-To use mark and region functionality, assign movement commands (e.g. Backward char, Forward char) to keys such as `C-f`, `C-b`, etc.(以下はEmacsのデフォルトキーバインドと，対応するコマンド一覧です。
+To use mark and region functionality, assign movement commands (e.g. Backward char, Forward char) to keys such as `C-f`, `C-b`, etc.
+
+以下はEmacsのデフォルトキーバインドと，対応するコマンド一覧です。
 ホットキーは手動で設定してください．
-マーク・リージョン機能を使うには，移動コマンド（Backward char，Forward charなど）を `C-f`，`C-b` 等に割り当てる必要があります．)
-
-
+マーク・リージョン機能を使うには，移動コマンド（Backward char，Forward charなど）を `C-f`，`C-b` 等に割り当てる必要があります．
 
 ### Cursor movement
 
@@ -58,33 +58,37 @@ To use mark and region functionality, assign movement commands (e.g. Backward ch
 | Isearch forward  | `C-s`     |
 | Isearch backward | `C-r`     |
 
-
-
 ## Limitations
-- Key repeat is not supported in the current implementation. If C-f/b/n/p is set at the system level (e.g. macOS), this is usually fine, but if C-f/b/n/p is set only within Obsidian, key repeat will not work. 
+
+- Key repeat is not supported in the current implementation. If C-f/b/n/p is set at the system level (e.g. macOS), this is usually fine, but if C-f/b/n/p is set only within Obsidian, key repeat will not work.
 
   現在の実装ではキーのリピートに対応していない．システムレベルでC-f/b/n/pが設定されている場合(MacOS等)では実用上の問題はないが，Obsidian上でのみC-f/b/n/pを設定している場合はリピート入力が機能しない．
+
 - Because this depends on CodeMirror internal APIs (`editor.cm`/`@codemirror/*`), behavior may change with Obsidian updates.
 
   CodeMirrorの内部API（`editor.cm`/`@codemirror/*`）に依存するため，Obsidianの更新で挙動が変わる可能性がある．
+
 - Emacs-like undo/redo will not be implemented because it would require separate history management.
 
   Emacs-likeなUndo/Redo機能は実装しない．独自の履歴管理を行う必要があるため．
+
 - A large number of hotkey assignments is unavoidable by design.
 
   ホットキー設定が多数必要になるのは仕様上避けられない．
 
 ## TODO
+
 - [ ] Enable movement-related commands only while the note is in focus.
 
   ノートにフォーカスしている最中のみ移動系コマンドを有効にする．
+
 - [ ] Exit Isearch mode with any key input.
 
   任意のキー操作でIsearchモードから抜ける．
+
 - [ ] Support key repeat input.
 
   キーのリピート入力に対応する．
-
 
 ## Keybind Settings Example
 
@@ -216,4 +220,3 @@ Here is a sample configuration for `.obsidian/hotkeys.json`.
   ]
 }
 ```
-
