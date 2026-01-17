@@ -47,7 +47,7 @@ export default class EmacsKeybindingsPlugin extends Plugin {
         if (this.searchManager.isSearchActive()) {
           this.searchManager.cancelSearch(editor);
         } else {
-          this.markManager.clearMark(editor);
+          this.markManager.clearMark();
         }
       },
     });

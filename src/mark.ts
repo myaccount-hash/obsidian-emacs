@@ -13,6 +13,10 @@ export class MarkManager {
     this.getWordBoundaryChars = getWordBoundaryChars;
   }
 
+  getMarkPos(): EditorPosition | null {
+    return this.markPos;
+  }
+
   /**
    * Convert boundary characters string into a Set.
    * Supports escaped "\t" and "\n" sequences.
@@ -40,10 +44,8 @@ export class MarkManager {
   /**
    * Clear the mark and deactivate selection.
    */
-  clearMark(editor: Editor) {
+  clearMark() {
     this.markPos = null;
-    const cursor = editor.getCursor();
-    editor.setSelection(cursor, cursor);
   }
 
   /**
@@ -51,11 +53,7 @@ export class MarkManager {
    * If the mark is set, extend the selection; otherwise just move.
    */
   moveCursor(editor: Editor, newPos: EditorPosition) {
-    if (this.markPos) {
-      editor.setSelection(this.markPos, newPos);
-    } else {
-      editor.setCursor(newPos);
-    }
+    editor.setCursor(newPos);
   }
 
   /**
@@ -106,9 +104,10 @@ export class MarkManager {
   async copyRegion(editor: Editor) {
     if (!this.markPos) return;
 
-    const text = editor.getRange(this.markPos, editor.getCursor());
+    const { from, to } = orderPos(this.markPos, editor.getCursor());
+    const text = editor.getRange(from, to);
     await navigator.clipboard.writeText(text);
-    this.clearMark(editor);
+    this.clearMark();
   }
 
   /**
@@ -117,9 +116,10 @@ export class MarkManager {
   async killRegion(editor: Editor) {
     if (!this.markPos) return;
 
-    const text = editor.getRange(this.markPos, editor.getCursor());
+    const { from, to } = orderPos(this.markPos, editor.getCursor());
+    const text = editor.getRange(from, to);
     await navigator.clipboard.writeText(text);
-    editor.replaceRange('', this.markPos, editor.getCursor());
+    editor.replaceRange('', from, to);
     this.markPos = null;
   }
 
@@ -291,4 +291,14 @@ export class MarkManager {
     await navigator.clipboard.writeText(text);
     editor.replaceRange('', startCursor, endCursor);
   }
+}
+
+function orderPos(
+  a: EditorPosition,
+  b: EditorPosition
+): { from: EditorPosition; to: EditorPosition } {
+  if (a.line < b.line) return { from: a, to: b };
+  if (a.line > b.line) return { from: b, to: a };
+  if (a.ch <= b.ch) return { from: a, to: b };
+  return { from: b, to: a };
 }
